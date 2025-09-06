@@ -70,8 +70,6 @@ FLAGS = parser.parse_args()
 
 # --- Common setups & resources
 scene, rng, output_dir, scratch_dir = kb.setup(FLAGS)
-print(vars(FLAGS))
-raise Exception("Debug stop")
 
 motion_blur = rng.uniform(0, FLAGS.max_motion_blur)
 if motion_blur > 0.0:
