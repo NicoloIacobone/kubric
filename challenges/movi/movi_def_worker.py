@@ -23,6 +23,9 @@ import kubric as kb
 from kubric.simulator import PyBullet
 from kubric.renderer import Blender
 import numpy as np
+import os
+import re
+from PIL import Image
 
 
 # --- Some configuration values
@@ -322,3 +325,16 @@ kb.write_json(filename=output_dir / "events.json", data={
 })
 
 kb.done()
+
+for filename in os.listdir(output_dir):
+  if filename.lower().endswith(".png") and filename.startswith("rgba_"):
+    percorso_png = os.path.join(output_dir, filename)
+    nome_senza_estensione = os.path.splitext(filename)[0]
+    numeri = re.findall(r'\d+', nome_senza_estensione)
+    nuovo_nome = numeri[0] if numeri else nome_senza_estensione
+    percorso_jpg = os.path.join(output_dir, nuovo_nome + ".jpg")
+    with Image.open(percorso_png) as img:
+      rgb_img = img.convert("RGB")
+      rgb_img.save(percorso_jpg, "JPEG", quality=100, subsampling=0)
+    os.remove(percorso_png)  # Elimina il file PNG originale
+print(f"rgba PNG files converted to JPG and original PNGs deleted in {output_dir}")
