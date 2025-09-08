@@ -71,6 +71,12 @@ parser.set_defaults(save_state=False, frame_end=24, frame_rate=12,
                     resolution=256)
 FLAGS = parser.parse_args()
 
+# Camera setting
+parser.add_argument("--inner_radius", type=float, default=14.0,
+                    help="minimum distance of the camera from the scene center")
+parser.add_argument("--outer_radius", type=float, default=20.0,
+                    help="maximum distance of the camera from the scene center")
+
 # --- Common setups & resources
 scene, rng, output_dir, scratch_dir = kb.setup(FLAGS)
 
@@ -169,7 +175,8 @@ logging.info("Setting up the Camera...")
 scene.camera = kb.PerspectiveCamera(focal_length=35., sensor_width=32)
 if FLAGS.camera == "fixed_random":
   scene.camera.position = kb.sample_point_in_half_sphere_shell(
-      inner_radius=7., outer_radius=9., offset=0.1)
+      # inner_radius=7., outer_radius=9., offset=0.1)
+      inner_radius=FLAGS.inner_radius, outer_radius=FLAGS.outer_radius, offset=0.1)
   scene.camera.look_at((0, 0, 0))
 elif (
     FLAGS.camera == "linear_movement"
