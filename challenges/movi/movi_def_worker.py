@@ -175,7 +175,7 @@ scene.camera = kb.PerspectiveCamera(focal_length=35., sensor_width=32)
 if FLAGS.camera == "fixed_random":
   scene.camera.position = kb.sample_point_in_half_sphere_shell(
       # inner_radius=7., outer_radius=9., offset=0.1)
-      inner_radius=14., outer_radius=20., offset=0.1)
+      inner_radius=12., outer_radius=15., offset=0.1)
   scene.camera.look_at((0, 0, 0))
 elif (
     FLAGS.camera == "linear_movement"
@@ -185,7 +185,7 @@ elif (
   is_panning = FLAGS.camera == "linear_movement_linear_lookat"
   camera_inner_radius = 6.0 if is_panning else 8.0
   camera_start, camera_end = get_linear_camera_motion_start_end(
-      movement_speed=rng.uniform(low=0., high=FLAGS.max_camera_movement)
+      movement_speed=rng.uniform(low=FLAGS.max_camera_movement-3, high=FLAGS.max_camera_movement)
   )
   if is_panning:
     # lookat_start, lookat_end = get_linear_lookat_motion_start_end()
