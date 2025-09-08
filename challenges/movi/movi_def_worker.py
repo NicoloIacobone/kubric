@@ -24,7 +24,7 @@ import re
 from PIL import Image
 import shutil
 import glob
-import imageio
+# import imageio
 
 
 # --- Some configuration values
@@ -368,23 +368,23 @@ for jpg_file in jpg_files:
   shutil.copy(jpg_file, final_output_dir)
 
 # Create video from frames using imageio
-frames_dir = final_output_dir  # cartella con i jpg
-output_file = os.path.join(final_output_dir, "video.mp4")
+# frames_dir = final_output_dir  # cartella con i jpg
+# output_file = os.path.join(final_output_dir, "video.mp4")
 
-# Prende i file .jpg ordinati per nome
-images = sorted(glob.glob(os.path.join(frames_dir, '*.jpg')))
+# # Prende i file .jpg ordinati per nome
+# images = sorted(glob.glob(os.path.join(frames_dir, '*.jpg')))
 
-if not images:
-    print("No .jpg files found in the specified directory.")
-else:
-    # Legge le immagini una alla volta
-    frames = [imageio.imread(img_path) for img_path in images]
+# if not images:
+#     print("No .jpg files found in the specified directory.")
+# else:
+#     # Legge le immagini una alla volta
+#     frames = [imageio.imread(img_path) for img_path in images]
 
-    # Salva come video
-    fps = 24  # frame rate
-    imageio.mimsave(output_file, frames, fps=fps)
+#     # Salva come video
+#     fps = 24  # frame rate
+#     imageio.mimsave(output_file, frames, fps=fps)
 
-    print(f"Video saved as {output_file}")
+#     print(f"Video saved as {output_file}")
 
 # # Create video from frames using OpenCV
 # frames_dir = final_output_dir  # Use the directory with the copied jpgs
