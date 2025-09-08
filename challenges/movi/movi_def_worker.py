@@ -189,7 +189,7 @@ elif (
   )
   if is_panning:
     # lookat_start, lookat_end = get_linear_lookat_motion_start_end()
-    lookat_start, lookat_end = get_linear_lookat_motion_start_end(inner_radius=14., outer_radius=20.)
+    lookat_start, lookat_end = get_linear_lookat_motion_start_end(inner_radius=5., outer_radius=10.)
 
   # linearly interpolate the camera position between these two points
   # while keeping it focused on the center of the scene
