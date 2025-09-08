@@ -24,7 +24,7 @@ import re
 from PIL import Image
 import shutil
 import glob
-import imageio.v2 as imageio
+import imageio
 
 
 # --- Some configuration values
@@ -71,10 +71,10 @@ parser.set_defaults(save_state=False, frame_end=24, frame_rate=12,
 FLAGS = parser.parse_args()
 
 # Camera setting
-parser.add_argument("--inner_radius", type=float, default=14.0,
-                    help="minimum distance of the camera from the scene center")
-parser.add_argument("--outer_radius", type=float, default=20.0,
-                    help="maximum distance of the camera from the scene center")
+# parser.add_argument("--inner_radius", type=float, default=14.0,
+#                     help="minimum distance of the camera from the scene center")
+# parser.add_argument("--outer_radius", type=float, default=20.0,
+#                     help="maximum distance of the camera from the scene center")
 
 # --- Common setups & resources
 scene, rng, output_dir, scratch_dir = kb.setup(FLAGS)
@@ -175,7 +175,7 @@ scene.camera = kb.PerspectiveCamera(focal_length=35., sensor_width=32)
 if FLAGS.camera == "fixed_random":
   scene.camera.position = kb.sample_point_in_half_sphere_shell(
       # inner_radius=7., outer_radius=9., offset=0.1)
-      inner_radius=FLAGS.inner_radius, outer_radius=FLAGS.outer_radius, offset=0.1)
+      inner_radius=14., outer_radius=20., offset=0.1)
   scene.camera.look_at((0, 0, 0))
 elif (
     FLAGS.camera == "linear_movement"
@@ -188,7 +188,8 @@ elif (
       movement_speed=rng.uniform(low=0., high=FLAGS.max_camera_movement)
   )
   if is_panning:
-    lookat_start, lookat_end = get_linear_lookat_motion_start_end()
+    # lookat_start, lookat_end = get_linear_lookat_motion_start_end()
+    lookat_start, lookat_end = get_linear_lookat_motion_start_end(inner_radius=14., outer_radius=20.)
 
   # linearly interpolate the camera position between these two points
   # while keeping it focused on the center of the scene
@@ -376,10 +377,10 @@ images = sorted(glob.glob(os.path.join(frames_dir, '*.jpg')))
 if not images:
     print("No .jpg files found in the specified directory.")
 else:
-    # Legge le immagini
+    # Legge le immagini una alla volta
     frames = [imageio.imread(img_path) for img_path in images]
 
-    # Scrive il video
+    # Salva come video
     fps = 24  # frame rate
     imageio.mimsave(output_file, frames, fps=fps)
 
