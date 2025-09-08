@@ -12,10 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-
-"""
-
 import logging
 
 import bpy
@@ -26,6 +22,9 @@ import numpy as np
 import os
 import re
 from PIL import Image
+import shutil
+import glob
+import cv2
 
 
 # --- Some configuration values
@@ -345,3 +344,53 @@ for filename in os.listdir(output_dir):
       rgb_img.save(percorso_jpg, "JPEG", quality=100, subsampling=0)
     os.remove(percorso_png)  # Elimina il file PNG originale
 print(f"rgba PNG files converted to JPG and original PNGs deleted in {output_dir}")
+
+final_output_dir = str(output_dir) + "_final"
+os.makedirs(final_output_dir, exist_ok=True)
+print(f"Created directory: {final_output_dir}")
+
+# Copy metadata.json
+metadata_src = os.path.join(output_dir, "metadata.json")
+metadata_dst = os.path.join(final_output_dir, "metadata.json")
+if os.path.exists(metadata_src):
+  shutil.copy(metadata_src, metadata_dst)
+
+# Copy segmentation_00000.png
+segmentation_src = os.path.join(output_dir, "segmentation_00000.png")
+segmentation_dst = os.path.join(final_output_dir, "segmentation_00000.png")
+if os.path.exists(segmentation_src):
+  shutil.copy(segmentation_src, segmentation_dst)
+
+# Copy all frame jpgs (00000.jpg to N.jpg)
+jpg_files = sorted(glob.glob(os.path.join(output_dir, "[0-9][0-9][0-9][0-9][0-9].jpg")))
+for jpg_file in jpg_files:
+  shutil.copy(jpg_file, final_output_dir)
+
+# Create video from frames using OpenCV
+frames_dir = final_output_dir  # Use the directory with the copied jpgs
+output_file = os.path.join(final_output_dir, "video.mp4")
+
+# Get list of jpg files sorted by name
+images = sorted(glob.glob(os.path.join(frames_dir, '*.jpg')))
+
+if not images:
+  print("No .jpg files found in the specified directory.")
+else:
+  # Read first image to get frame size
+  frame = cv2.imread(images[0])
+  height, width, layers = frame.shape
+
+  # Define video codec and create VideoWriter object
+  fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+  fps = 24  # Match the default frame rate
+  video = cv2.VideoWriter(output_file, fourcc, fps, (width, height))
+
+  for img_path in images:
+    img = cv2.imread(img_path)
+    if img is None:
+      print(f"Warning: Could not read {img_path}, skipping.")
+      continue
+    video.write(img)
+
+  video.release()
+  print(f"Video saved as {output_file}")
