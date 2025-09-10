@@ -365,6 +365,13 @@ segmentation_dst = os.path.join(final_output_dir, "segmentation_00000.png")
 if os.path.exists(segmentation_src):
   shutil.copy(segmentation_src, segmentation_dst)
 
+# put all segmentation_*.png in a subfolder called "gt_masks"
+gt_masks_dir = os.path.join(final_output_dir, "gt_masks")
+os.makedirs(gt_masks_dir, exist_ok=True)
+segmentation_files = sorted(glob.glob(os.path.join(output_dir, "segmentation_*.png")))
+for seg_file in segmentation_files:
+  shutil.copy(seg_file, gt_masks_dir)
+
 # Copy all frame jpgs (00000.jpg to N.jpg)
 jpg_files = sorted(glob.glob(os.path.join(output_dir, "[0-9][0-9][0-9][0-9][0-9].jpg")))
 for jpg_file in jpg_files:
