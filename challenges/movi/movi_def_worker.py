@@ -346,7 +346,10 @@ for filename in os.listdir(output_dir):
     os.remove(percorso_png)  # Elimina il file PNG originale
 print(f"rgba PNG files converted to JPG and original PNGs deleted in {output_dir}")
 
-final_output_dir = os.path.join(str(output_dir), "final")
+# Estrai il nome della cartella (seconda parte di output_dir)
+output_dir_str = str(output_dir)
+folder_name = os.path.basename(output_dir_str.rstrip("/"))
+final_output_dir = os.path.join(output_dir_str, folder_name)  # es: output/video_01/video_01
 os.makedirs(final_output_dir, exist_ok=True)
 print(f"Created directory: {final_output_dir}")
 

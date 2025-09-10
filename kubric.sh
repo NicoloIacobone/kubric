@@ -4,52 +4,13 @@ podman run --rm --interactive \
     --volume "$(pwd):/kubric" \
     kubricdockerhub/kubruntu /usr/bin/python3 \
     challenges/movi/movi_def_worker.py \
-    --job-dir=output/video_13_static_short \
-    --camera=linear_movement \
-    --min_num_static_objects=4 \
-    --max_num_static_objects=10 \
-    --min_num_dynamic_objects=0 \
-    --max_num_dynamic_objects=0 \
-    --max_camera_movement=8.0 \
-    --frame_end=72
-
-podman run --rm --interactive \
-    --volume "$(pwd):/kubric" \
-    kubricdockerhub/kubruntu /usr/bin/python3 \
-    challenges/movi/movi_def_worker.py \
-    --job-dir=output/video_14_static_medium \
-    --camera=linear_movement \
-    --min_num_static_objects=4 \
-    --max_num_static_objects=10 \
-    --min_num_dynamic_objects=0 \
-    --max_num_dynamic_objects=0 \
-    --max_camera_movement=8.0 \
-    --frame_end=120
-
-podman run --rm --interactive \
-    --volume "$(pwd):/kubric" \
-    kubricdockerhub/kubruntu /usr/bin/python3 \
-    challenges/movi/movi_def_worker.py \
-    --job-dir=output/video_15_static_long \
-    --camera=linear_movement \
-    --min_num_static_objects=4 \
-    --max_num_static_objects=10 \
-    --min_num_dynamic_objects=0 \
-    --max_num_dynamic_objects=0 \
-    --max_camera_movement=8.0 \
-    --frame_end=240
-
-podman run --rm --interactive \
-    --volume "$(pwd):/kubric" \
-    kubricdockerhub/kubruntu /usr/bin/python3 \
-    challenges/movi/movi_def_worker.py \
     --job-dir=output/video_16_static_long \
     --camera=linear_movement \
     --min_num_static_objects=4 \
     --max_num_static_objects=10 \
     --min_num_dynamic_objects=0 \
     --max_num_dynamic_objects=0 \
-    --max_camera_movement=30.0 \
+    --max_camera_movement=20.0 \
     --frame_end=240
 
 podman run --rm --interactive \
@@ -112,7 +73,7 @@ podman run --rm --interactive \
     --max_num_static_objects=5 \
     --min_num_dynamic_objects=2 \
     --max_num_dynamic_objects=2 \
-    --max_camera_movement=25.0 \
+    --max_camera_movement=20.0 \
     --frame_end=240
 
 podman run --rm --interactive \
@@ -151,5 +112,5 @@ podman run --rm --interactive \
     --max_num_static_objects=5 \
     --min_num_dynamic_objects=5 \
     --max_num_dynamic_objects=5 \
-    --max_camera_movement=25.0 \
+    --max_camera_movement=20.0 \
     --frame_end=240
